@@ -37,7 +37,6 @@ export default async function CountryIdPage({ params }: Props) {
               src={country?.flags.png}
               width={500}
               height={500}
-              // alt={country.flags.alt}
               alt={country.flags.alt ?? `Flag of ${country.name.common}`}
               className="rounded-xl object-cover"
             />

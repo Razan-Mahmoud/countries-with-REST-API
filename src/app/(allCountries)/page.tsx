@@ -35,7 +35,7 @@ export default async function AllCountriesPage({ query, data }: { query: string;
                     <div className="w-full">
                       <Image
                         src={country.flags.png}
-                        alt={country.flags.alt}
+                        alt={country.flags.alt ?? `Flag of ${country.name.common}`}
                         width={300}
                         height={300}
                       />
