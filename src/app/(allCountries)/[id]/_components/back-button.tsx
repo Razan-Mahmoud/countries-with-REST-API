@@ -6,6 +6,9 @@ import { Button } from "@/lib/components/ui/button";
 
 export default function BackButton() {
   const router = useRouter();
+  if (!router) {
+    return <div>Loading...</div>;
+  }
 
   function handleClickBack() {
     router.back();

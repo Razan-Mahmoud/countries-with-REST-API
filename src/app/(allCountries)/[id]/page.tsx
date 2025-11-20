@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 
 import { getCountriesByCodes, getCountryByCode } from "@yusifaliyevpro/countries";
-import { MoveLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { countryFields } from "@/lib/fields";
