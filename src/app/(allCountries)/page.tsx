@@ -71,7 +71,7 @@ export default async function AllCountriesPage({ query, data }: { query: string;
                     <div className="w-full">
                       <Image
                         src={country.flags.png}
-                        alt={country.flags.alt}
+                        alt={country.flags.alt ?? `Flag of ${country.name.common}`}
                         width={300}
                         height={300}
                       />
@@ -102,7 +102,12 @@ export default async function AllCountriesPage({ query, data }: { query: string;
           >
             <Link href={`/${country.cca2}`}>
               <div className="w-full">
-                <Image src={country.flags.png} alt={country.flags.alt} width={300} height={300} />
+                <Image
+                  src={country.flags.png}
+                  alt={country.flags.alt ?? `Flag of ${country.name.common}`}
+                  width={300}
+                  height={300}
+                />
               </div>
               <div className="px-5 py-3">
                 <h3 className="pb-2 font-bold">{country.name.official}</h3>
