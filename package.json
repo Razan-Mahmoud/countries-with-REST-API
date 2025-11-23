@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "build-debug": "next build --debug-prerender",
     "format": "prettier --check ./src/.",
     "format:fix": "prettier --write ./src/."
   },

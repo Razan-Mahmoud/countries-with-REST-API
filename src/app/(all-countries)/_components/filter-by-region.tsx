@@ -61,7 +61,7 @@ export default function FilterByRegion() {
         {value ? regions.find((region) => region.value === value)?.label : "Filter by Region"}
         <ChevronDown className="opacity-50" size={20} strokeWidth={1.75} />
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[200px] bg-white p-0 dark:bg-slate-600">
         <Command>
           <CommandList>
             <CommandGroup className="w-[200px] rounded-sm p-3 shadow-zinc-100 dark:bg-slate-600">
