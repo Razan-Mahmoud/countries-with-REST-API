@@ -2,7 +2,7 @@
 
 This is a Frontend Mentor challenge. Built with Next.js 14, Tailwind CSS, Schadcn, React, and TypeScript. The website ensures a smooth, fast, and elegant browsing experience across all devices.
 
-It is a solution to the [REST Countries API with color theme switcher challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca).
+Solution URL: [REST Countries API Exercise](https://rest-countries-api-mu-five.vercel.app/)
 
 ## Table of contents
    - [Features](#features)
@@ -21,7 +21,7 @@ It is a solution to the [REST Countries API with color theme switcher challenge 
 - Country Card – Get Information about a specific country.
 
 ### Links
-- Solution URL: [REST Countries API Exercise](https://rest-countries-api-mu-five.vercel.app/)
+It is a solution to the [REST Countries API with color theme switcher challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca).
 
 ### Tech Stack
 - Framework - Next.js 14 With TypeScript
