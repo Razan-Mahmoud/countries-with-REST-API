@@ -30,9 +30,9 @@ export default async function CountryIdPage({ params }: Props) {
 
       {/* Country Card */}
       <Suspense fallback={<p>Loading...</p>}>
-        <div className="flex grid-cols-2 gap-1 md:flex-col lg:flex-row">
+        <div className="flex grid-cols-2 flex-col gap-5 lg:flex-row lg:gap-2">
           {/* Image */}
-          <div className="relative flex w-1/2 items-center justify-center overflow-hidden">
+          <div className="relative flex w-full overflow-hidden lg:w-1/2">
             {country?.flags && (
               <Image
                 src={country?.flags.png}
@@ -45,9 +45,10 @@ export default async function CountryIdPage({ params }: Props) {
           </div>
 
           {/* Country Details */}
-          <div className="flex w-1/2 flex-col">
-            <div className="flex grid-cols-2 md:flex-col lg:flex-row">
-              <div className="grid-cols-1 space-y-3 px-3 md:py-3">
+          <div className="flex w-full flex-col gap-2 lg:w-1/2">
+            <div className="grid grid-cols-2 gap-4 sm:flex-col lg:flex-row">
+              {/* First Column */}
+              <div className="col-span-2 space-y-3 px-3 sm:py-3 lg:col-span-1">
                 {/* Country Name */}
                 <h2 className="font-bold">{country?.name.common}</h2>
                 <p className="font-semibold">
@@ -83,7 +84,8 @@ export default async function CountryIdPage({ params }: Props) {
                 </p>
               </div>
 
-              <div className="grid-cols-1 space-y-3 px-3 md:py-3">
+              {/* Second column */}
+              <div className="col-span-2 space-y-3 px-3 sm:py-3 lg:col-span-1">
                 {/* TLD */}
                 <p className="font-semibold">
                   Top Level Domain: <span className="font-normal">{country?.tld}</span>
@@ -112,7 +114,7 @@ export default async function CountryIdPage({ params }: Props) {
             </div>
 
             {/* Borders */}
-            <div className="px-2 md:py-2">
+            <div className="px-2 sm:py-2">
               <p className="font-semibold">
                 Border Countries:{" "}
                 {country?.borders?.length !== 0 ? (

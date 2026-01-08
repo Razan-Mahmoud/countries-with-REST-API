@@ -23,13 +23,13 @@ export default function SearchInput() {
   }, 300);
 
   return (
-    <div className="grid h-11 grid-cols-3">
-      <div className="relative col-span-3 h-12 lg:col-span-2">
+    <div className="grid h-11 grid-cols-2">
+      <div className="relative col-span-2 h-12">
         <Search size={20} strokeWidth={1.5} className="absolute start-2 top-4" color="gray" />
         <Input
           onChange={(e) => handleChange(e.target.value?.toLowerCase())}
           placeholder="Search for a country..."
-          className="rounded-xl p-3 ps-10 shadow-sm shadow-zinc-100 dark:bg-slate-600 dark:shadow-none"
+          className="rounded-xl p-3 ps-8 shadow-sm shadow-zinc-100 dark:bg-slate-600 dark:shadow-none lg:ps-10"
           defaultValue={searchParams.get("query")?.toString().toLowerCase()}
         />
       </div>

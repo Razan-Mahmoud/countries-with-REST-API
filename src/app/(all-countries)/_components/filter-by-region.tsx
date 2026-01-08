@@ -52,39 +52,44 @@ export default function FilterByRegion() {
   }
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger
-        role="combobox"
-        aria-expanded={open}
-        className="flex h-11 w-60 justify-between rounded-sm bg-white p-2 shadow-sm shadow-zinc-100 focus:border-none dark:bg-slate-600 dark:shadow-none lg:w-[200px] lg:p-3"
-      >
-        {value ? regions.find((region) => region.value === value)?.label : "Filter by Region"}
-        <ChevronDown className="opacity-50" size={20} strokeWidth={1.75} />
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] bg-white p-0 dark:bg-slate-600">
-        <Command>
-          <CommandList>
-            <CommandGroup className="w-[200px] rounded-sm p-3 shadow-zinc-100 dark:bg-slate-600">
-              {regions.map((region) => (
-                <CommandItem
-                  key={region.value}
-                  value={region.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
-                    handleSelect(currentValue);
-                    setOpen(false);
-                  }}
-                >
-                  {region.label}
-                  <Check
-                    className={cn("ml-auto", value === region.value ? "opacity-100" : "opacity-0")}
-                  />
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    <div className="grid grid-cols-2">
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger
+          role="combobox"
+          aria-expanded={open}
+          className="col-span-2 flex h-11 items-center justify-between rounded-xl bg-white p-2 shadow-sm shadow-zinc-100 focus:border-none dark:bg-slate-600 dark:shadow-none lg:w-[200px] lg:p-3"
+        >
+          {value ? regions.find((region) => region.value === value)?.label : "Filter by Region"}
+          <ChevronDown className="opacity-50" size={20} strokeWidth={1.75} />
+        </PopoverTrigger>
+        <PopoverContent className="col-span-2 bg-white p-0 dark:bg-slate-600 lg:w-[200px]">
+          <Command>
+            <CommandList>
+              <CommandGroup className="w-[200px] rounded-sm p-3 shadow-zinc-100 dark:bg-slate-600">
+                {regions.map((region) => (
+                  <CommandItem
+                    key={region.value}
+                    value={region.value}
+                    onSelect={(currentValue) => {
+                      setValue(currentValue === value ? "" : currentValue);
+                      handleSelect(currentValue);
+                      setOpen(false);
+                    }}
+                  >
+                    {region.label}
+                    <Check
+                      className={cn(
+                        "ml-auto",
+                        value === region.value ? "opacity-100" : "opacity-0",
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 }

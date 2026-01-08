@@ -78,6 +78,7 @@ export default async function Home({
                   alt={country.flags.alt ?? `Flag of ${country.name.common}`}
                   width={300}
                   height={300}
+                  className="rounded-xl"
                 />
               </div>
               <div className="px-5 py-3">
@@ -102,7 +103,7 @@ export default async function Home({
   );
   return (
     <main className="h-auto bg-zinc-100 px-8 py-4 dark:bg-slate-700 dark:text-zinc-200">
-      <div className="my-6 flex justify-between gap-4">
+      <div className="my-6 flex flex-col gap-5 lg:flex-row lg:justify-between">
         <SearchInput />
 
         <FilterByRegion />
@@ -110,7 +111,6 @@ export default async function Home({
       <Suspense fallback={<>Loading...</>}>
         <CountryList countries={countriesToRender} />
       </Suspense>
-      {/* <AllCountriesPage query={query} data={data} /> */}
     </main>
   );
 }
