@@ -15,13 +15,13 @@ export default function ThemeToggle() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex justify-between gap-2 border-none ps-4 outline-none">
+      <DropdownMenuTrigger className="flex items-center justify-between gap-2 border-none ps-4 outline-none">
         {/* Light icon */}
         <Moon className="size-6 rotate-0 scale-100 !transition-all dark:-rotate-0 dark:scale-0" />
 
         {/* Dark icon */}
         <Moon className="absolute size-6 rotate-90 scale-0 !transition-all dark:rotate-0 dark:scale-100" />
-        <span className="font-semibold">Dark Mode</span>
+        <span className="text-xl font-semibold lg:text-base">Dark Mode</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[130px] rounded-md bg-zinc-100 p-3 shadow-zinc-100 dark:bg-slate-600 dark:shadow-none">
         <DropdownMenuItem

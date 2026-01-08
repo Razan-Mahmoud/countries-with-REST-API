@@ -102,7 +102,7 @@ export default async function Home({
   );
   return (
     <main className="h-auto bg-zinc-100 px-8 py-4 dark:bg-slate-700 dark:text-zinc-200">
-      <div className="my-6 flex justify-between">
+      <div className="my-6 flex justify-between gap-4">
         <SearchInput />
 
         <FilterByRegion />

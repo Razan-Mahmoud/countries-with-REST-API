@@ -23,8 +23,8 @@ export default function SearchInput() {
   }, 300);
 
   return (
-    <div className="grid h-11 grid-cols-2">
-      <div className="relative h-12 grid-cols-2">
+    <div className="grid h-11 grid-cols-3">
+      <div className="relative col-span-3 h-12 lg:col-span-2">
         <Search size={20} strokeWidth={1.5} className="absolute start-2 top-4" color="gray" />
         <Input
           onChange={(e) => handleChange(e.target.value?.toLowerCase())}

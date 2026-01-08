@@ -56,7 +56,7 @@ export default function FilterByRegion() {
       <PopoverTrigger
         role="combobox"
         aria-expanded={open}
-        className="flex h-11 w-[200px] justify-between rounded-sm bg-white p-3 shadow-sm shadow-zinc-100 focus:border-none dark:bg-slate-600 dark:shadow-none"
+        className="flex h-11 w-60 justify-between rounded-sm bg-white p-2 shadow-sm shadow-zinc-100 focus:border-none dark:bg-slate-600 dark:shadow-none lg:w-[200px] lg:p-3"
       >
         {value ? regions.find((region) => region.value === value)?.label : "Filter by Region"}
         <ChevronDown className="opacity-50" size={20} strokeWidth={1.75} />
