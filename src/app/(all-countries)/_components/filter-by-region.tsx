@@ -1,54 +1,41 @@
 "use client";
 
-import * as React from "react";
 import { Check, ChevronDown } from "lucide-react";
+import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { cn } from "@/lib/cn";
-import { Command, CommandGroup, CommandItem, CommandList } from "@/lib/components/ui/command";
+import { cn } from "@/lib/utils/cn";
 import { Popover, PopoverContent, PopoverTrigger } from "@/lib/components/ui/popover";
+import { Command, CommandGroup, CommandItem, CommandList } from "@/lib/components/ui/command";
 
 const regions = [
-  {
-    value: "africa",
-    label: "Africa",
-  },
-  {
-    value: "america",
-    label: "America",
-  },
-  {
-    value: "asia",
-    label: "Asia",
-  },
-  {
-    value: "europe",
-    label: "Europe",
-  },
-  {
-    value: "oceania",
-    label: "Oceania",
-  },
+  { value: "all", label: "All Continents" },
+  { value: "africa", label: "Africa" },
+  { value: "america", label: "America" },
+  { value: "asia", label: "Asia" },
+  { value: "europe", label: "Europe" },
+  { value: "oceania", label: "Oceania" },
 ];
 
 export default function FilterByRegion() {
-  // State
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
-
-  // Navigation
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  // Select function
+  const selectedValue = searchParams.get("data") || "all";
+
+  const [open, setOpen] = useState(false);
+
   function handleSelect(term: string) {
     const params = new URLSearchParams(searchParams);
-    if (term) {
+    params.delete("query");
+
+    if (term && term !== "all") {
       params.set("data", term);
     } else {
       params.delete("data");
     }
     replace(`${pathname}?${params.toString()}`);
+    setOpen(false);
   }
 
   return (
@@ -56,31 +43,27 @@ export default function FilterByRegion() {
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger
           role="combobox"
-          aria-expanded={open}
-          className="col-span-2 flex h-11 items-center justify-between rounded-xl bg-white p-2 shadow-sm shadow-zinc-100 focus:border-none dark:bg-slate-600 dark:shadow-none lg:w-[200px] lg:p-3"
+          className="col-span-2 flex h-11 items-center justify-between rounded-xl bg-white p-2 shadow-sm dark:bg-slate-600 md:w-[200px] md:p-3"
         >
-          {value ? regions.find((region) => region.value === value)?.label : "Filter by Region"}
+          {regions.find((r) => r.value === selectedValue)?.label || "Filter by Region"}
           <ChevronDown className="opacity-50" size={20} strokeWidth={1.75} />
         </PopoverTrigger>
-        <PopoverContent className="col-span-2 bg-white p-0 dark:bg-slate-600 lg:w-[200px]">
+
+        <PopoverContent className="col-span-2 bg-white p-0 dark:bg-slate-600 md:w-[200px]">
           <Command>
             <CommandList>
-              <CommandGroup className="w-[200px] rounded-sm p-3 shadow-zinc-100 dark:bg-slate-600">
+              <CommandGroup className="w-[200px] p-3">
                 {regions.map((region) => (
                   <CommandItem
                     key={region.value}
                     value={region.value}
-                    onSelect={(currentValue) => {
-                      setValue(currentValue === value ? "" : currentValue);
-                      handleSelect(currentValue);
-                      setOpen(false);
-                    }}
+                    onSelect={() => handleSelect(region.value)}
                   >
                     {region.label}
                     <Check
                       className={cn(
                         "ml-auto",
-                        value === region.value ? "opacity-100" : "opacity-0",
+                        selectedValue === region.value ? "opacity-100" : "opacity-0",
                       )}
                     />
                   </CommandItem>

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Providers from "@/lib/providers";
+import { ThemeProvider } from "@/lib/providers/theme-provider";
 import Header from "./components/common/header";
 import "./globals.css";
+import ScrollToTopButton from "./components/common/scroll-to-top-button";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,11 +31,21 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-zinc-100 antialiased dark:bg-slate-700 dark:text-zinc-200`}
       >
-        <Providers>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          storageKey="theme-preference"
+          enableColorScheme
+          disableTransitionOnChange
+        >
           {/* Header */}
           <Header />
+
+          {/* Main App */}
           {children}
-        </Providers>
+          <ScrollToTopButton />
+        </ThemeProvider>
       </body>
     </html>
   );
