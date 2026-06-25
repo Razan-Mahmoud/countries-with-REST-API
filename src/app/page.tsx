@@ -9,9 +9,8 @@ export default async function Home({
   searchParams,
 }: {
   searchParams?: {
-    query?: string;
-    data?: Region;
-    page?: string;
+    searchQuery?: string;
+    filterData?: Region;
   };
 }) {
   return (

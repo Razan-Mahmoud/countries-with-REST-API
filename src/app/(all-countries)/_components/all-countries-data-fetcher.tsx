@@ -1,59 +1,72 @@
-import { getCountries, getCountriesByName, getCountriesByRegion } from "@yusifaliyevpro/countries";
-import { Country, Region } from "@yusifaliyevpro/countries/types";
 import Image from "next/image";
 import Link from "next/link";
+import { CountryPicker, Region } from "@yusifaliyevpro/countries/types";
+import { RestCountries } from "@yusifaliyevpro/countries";
+import { notFound } from "next/navigation";
+import globePic from "@/assets/globe.jpg";
+import { shuffleArray } from "@/lib/utils/shuffle";
 
 // Types
-type CountrySubset = {
-  name: Country["name"];
-  capital?: Country["capital"];
-  flags: Country["flags"];
-  population: Country["population"];
-  region: Country["region"];
-  cca2: Country["cca2"];
-};
+type CountrySubset = CountryPicker<["names", "capitals", "flag", "population", "region", "codes"]>;
 
 export default async function CountryDataFetcher({
   searchParams,
 }: {
   searchParams?: {
-    query?: string;
-    data?: string;
+    searchQuery?: string;
+    filterData?: string;
     page?: string;
   };
 }) {
+  // main function with API key
+  const restCountries = new RestCountries({ apiKey: process.env.REST_COUNTRIES_API_KEY! });
+
   // Variables
-  const query = searchParams?.query || "";
-  const data = searchParams?.data ?? "";
+  const searchResult = searchParams?.searchQuery || "";
+  const filterdData = searchParams?.filterData ?? "";
 
-  // main fetch function to avoid creating a waterfall
-  const [all, search, filtered] = await Promise.all([
-    getCountries({ fields: ["name", "capital", "flags", "population", "region", "cca2"] }),
+  // one single function in order not to create a waterfall
+  const [all, search, filter] = await Promise.all([
+    // 1- fetch all countries
+    restCountries.getCountries({
+      fields: ["names", "capitals", "flag", "population", "region", "codes"],
+      filters: { classification: { sovereign: true, un_member: true } },
+    }),
 
-    query
-      ? getCountriesByName({
-          name: query,
-          fields: ["name", "capital", "flags", "population", "region", "cca2"],
+    searchResult
+      ? // 2- search - skip if no search query
+        restCountries.getCountriesByName({
+          name: searchResult,
+          fields: ["names", "capitals", "flag", "population", "region", "codes"],
         })
-      : Promise.resolve([]),
+      : Promise.resolve(null),
 
-    data && data !== "all"
-      ? getCountriesByRegion({
-          region: data as Region,
-          fields: ["name", "capital", "flags", "population", "region", "cca2"],
+    // 3- filter by region
+
+    filterdData && filterdData !== "all"
+      ? restCountries.getCountriesByRegion({
+          region: filterdData as Region,
+          fields: ["names", "capitals", "flag", "population", "region", "codes"],
         })
-      : Promise.resolve([]),
+      : Promise.resolve(null),
   ]);
 
-  // Variable and if statement to see whether to show the search, filter or main fetch results
-  let countriesToRender: CountrySubset[] | null = null;
+  // handle error on the main fetch
+  if (!all.success) {
+    return notFound();
+  }
 
-  if (query) {
-    countriesToRender = search as CountrySubset[];
-  } else if (data && data !== "all") {
-    countriesToRender = filtered as CountrySubset[];
+  // variable and chain if statements to see what to show: search, filter or all results.
+
+  let countriesToRender: CountrySubset[] | null = null;
+  // shuffleArray(all.countries).slice(0, 16);
+  if (search) {
+    countriesToRender = search.countries as CountrySubset[];
+  } else if (filter && filterdData !== "all") {
+    countriesToRender = filter.countries as CountrySubset[];
   } else {
-    countriesToRender = all as CountrySubset[];
+    //   shuffle to get different results each hit
+    countriesToRender = shuffleArray(all.countries).slice(0, 16);
   }
 
   // Main HTML for all countries, search and filter results
@@ -63,26 +76,27 @@ export default async function CountryDataFetcher({
         countries?.map((country) => (
           // List of all countries
           <div
-            key={country.name.common}
+            key={country.names.common}
             className="rounded-lg bg-white shadow-sm shadow-zinc-100 dark:bg-slate-600 dark:shadow-none"
           >
             {/* Link to id/specific country page */}
-            <Link href={`/${country.cca2}`}>
+            <Link href={`/${country.codes.alpha_2}`}>
               {/*  Image */}
               <div className="relative aspect-video w-full overflow-hidden">
                 <Image
-                  src={country.flags.png}
-                  alt={country.flags.alt ?? `Flag of ${country.name.common}`}
+                  src={country.flag.url_png || globePic}
+                  alt={country.flag.description ?? `Flag of ${country.names.common}`}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                   className="rounded-lg object-cover"
+                  priority
                 />
               </div>
 
               {/* Country details */}
               <div className="px-5 py-3">
                 {/* Country official name */}
-                <h3 className="pb-2 font-bold">{country.name.official}</h3>
+                <h3 className="pb-2 font-bold">{country.names.official}</h3>
 
                 {/* Population */}
                 <p className="font-semibold">
@@ -97,7 +111,12 @@ export default async function CountryDataFetcher({
 
                 {/* Capital */}
                 <p className="font-semibold">
-                  Capital: <span className="font-normal">{country.capital}</span>
+                  Capital:{" "}
+                  <span className="font-normal">
+                    {country.capitals.map((caiptal) => {
+                      return <span key={caiptal.name}>{caiptal.name}</span>;
+                    })}
+                  </span>
                 </p>
               </div>
             </Link>
@@ -108,5 +127,6 @@ export default async function CountryDataFetcher({
       )}
     </div>
   );
+
   return <CountryList countries={countriesToRender} />;
 }

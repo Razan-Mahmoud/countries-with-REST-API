@@ -11,19 +11,21 @@ export default function SearchInput() {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const [inputValue, setInputValue] = useState(searchParams.get("query")?.toLowerCase() || "");
+  const [inputValue, setInputValue] = useState(
+    searchParams.get("searchQuery")?.toLowerCase() || "",
+  );
 
   useEffect(() => {
-    setInputValue(searchParams.get("query") || "");
+    setInputValue(searchParams.get("searchQuery") || "");
   }, [searchParams]);
 
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
-      params.set("query", term.toLowerCase());
+      params.set("searchQuery", term.toLowerCase());
       params.delete("data");
     } else {
-      params.delete("query");
+      params.delete("searchQuery");
     }
     replace(`${pathname}?${params.toString()}`);
   }, 300);

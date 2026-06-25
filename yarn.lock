@@ -1069,10 +1069,12 @@
   resolved "https://registry.npmjs.org/@unrs/resolver-binding-win32-x64-msvc/-/resolver-binding-win32-x64-msvc-1.10.1.tgz"
   integrity sha512-2v3erKKmmCyIVvvhI2nF15qEbdBpISTq44m9pyd5gfIJB1PN94oePTLWEd82XUbIbvKhv76xTSeUQSCOGesLeg==
 
-"@yusifaliyevpro/countries@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.npmjs.org/@yusifaliyevpro/countries/-/countries-2.2.2.tgz"
-  integrity sha512-2chsv5XtnBFFz3dG25xWHx+E0lKRZuyP+T/3aICBHXCWvcsCO4OUhIibRKrJcmZQyD4cMiwkG/kFoXBkb8vMEw==
+"@yusifaliyevpro/countries@^5.1.3":
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/@yusifaliyevpro/countries/-/countries-5.1.3.tgz#efc0f2ed5b4a463d4b3ea92577543d60e08d26d5"
+  integrity sha512-GCUOYmrcV/CM6UA1YnherRqshR3Tyv1d6ff/U9ZDOGtX/jxBkFTvtu/y2UfuceOBW86mqMVrpwYXMQf6zh53iA==
+  dependencies:
+    zod "^4.4.3"
 
 acorn-jsx@^5.3.2:
   version "5.3.2"
@@ -4346,3 +4348,8 @@ zod@^3.20.2:
   version "3.25.76"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.25.76.tgz#26841c3f6fd22a6a2760e7ccb719179768471e34"
   integrity sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==
+
+zod@^4.4.3:
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-4.4.3.tgz#b680f172885d18bbebf21a834ea25e55a1bbf356"
+  integrity sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==

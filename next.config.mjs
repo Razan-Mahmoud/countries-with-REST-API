@@ -5,8 +5,8 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "flagcdn.com",
-        pathname: "/w320/**",
+        hostname: "flags.restcountries.com",
+        pathname: "/v5/**",
         search: "",
         port: "",
       },

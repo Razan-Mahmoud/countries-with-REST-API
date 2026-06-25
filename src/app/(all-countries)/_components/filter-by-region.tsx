@@ -21,18 +21,18 @@ export default function FilterByRegion() {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const selectedValue = searchParams.get("data") || "all";
+  const selectedValue = searchParams.get("filterData") || "all";
 
   const [open, setOpen] = useState(false);
 
   function handleSelect(term: string) {
     const params = new URLSearchParams(searchParams);
-    params.delete("query");
+    params.delete("searchQuery");
 
     if (term && term !== "all") {
-      params.set("data", term);
+      params.set("filterData", term);
     } else {
-      params.delete("data");
+      params.delete("filterData");
     }
     replace(`${pathname}?${params.toString()}`);
     setOpen(false);
@@ -52,12 +52,13 @@ export default function FilterByRegion() {
         <PopoverContent className="col-span-2 bg-white p-0 dark:bg-slate-600 md:w-[200px]">
           <Command>
             <CommandList>
-              <CommandGroup className="w-[200px] p-3">
+              <CommandGroup className="w-[200px] rounded-md p-3">
                 {regions.map((region) => (
                   <CommandItem
                     key={region.value}
                     value={region.value}
                     onSelect={() => handleSelect(region.value)}
+                    className="cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-500"
                   >
                     {region.label}
                     <Check

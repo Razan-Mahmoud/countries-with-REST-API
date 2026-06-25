@@ -1,27 +1,42 @@
 import Image from "next/image";
-import Link from "next/link";
-import { getCountriesByCodes, getCountryByCode } from "@yusifaliyevpro/countries";
-import { countryFields } from "@/lib/fields";
-import { Button } from "@/lib/components/ui/button";
+import { notFound } from "next/navigation";
+import { restCountries } from "@/lib/countries";
+import Borders from "./borders";
 
 export default async function CountryContent({ id }: { id: string }) {
-  const country = await getCountryByCode({ code: id, fields: countryFields });
-  const data = await getCountriesByCodes({
-    codes: country?.borders || [],
-    fields: countryFields,
+  // Fetch a single country
+  const { success, country } = await restCountries.getCountryByCode({
+    alpha_2: id,
+    fields: [
+      "names",
+      "capitals",
+      "flag",
+      "population",
+      "region",
+      "subregion",
+      "tlds",
+      "currencies",
+      "languages",
+      "borders",
+    ],
   });
+
+  if (!success) {
+    return notFound();
+  }
 
   return (
     <div className="flex grid-cols-2 flex-col gap-5 md:flex-row md:gap-2">
       {/* Image */}
       <div className="relative flex w-full overflow-hidden md:w-1/2">
-        {country?.flags && (
+        {country?.flag && (
           <Image
-            src={country?.flags.png}
+            src={country?.flag.url_png}
             width={500}
             height={500}
-            alt={country.flags.alt ?? `Flag of ${country.name.common}`}
+            alt={country.flag.description ?? `Flag of ${country.names.common}`}
             className="rounded-lg object-cover"
+            priority
           />
         )}
       </div>
@@ -32,13 +47,12 @@ export default async function CountryContent({ id }: { id: string }) {
           {/* First Column */}
           <div className="col-span-2 space-y-3 px-3 sm:py-3 md:col-span-1">
             {/* Native Name */}
-            <h2 className="font-bold">{country?.name.common}</h2>
+            <h2 className="font-bold">{country?.names.common}</h2>
 
             <p className="font-semibold">
               Native Name:{" "}
               <span className="font-normal">
-                {(country?.name.nativeName &&
-                  Object.values(country.name.nativeName)[0]?.official) ||
+                {(country?.names.native && Object.values(country.names.native)[0]?.official) ||
                   "N/A"}
               </span>
             </p>
@@ -60,7 +74,10 @@ export default async function CountryContent({ id }: { id: string }) {
 
             {/* Country's Capital */}
             <p className="font-semibold">
-              Capital: <span className="font-normal">{country?.capital}</span>
+              Capital:{" "}
+              <span className="font-normal">
+                {country?.capitals.map((capital) => capital.name)}
+              </span>
             </p>
           </div>
 
@@ -68,7 +85,7 @@ export default async function CountryContent({ id }: { id: string }) {
           <div className="col-span-2 space-y-3 px-3 sm:py-3 md:col-span-1">
             {/* TLD */}
             <p className="font-semibold">
-              Top Level Domain: <span className="font-normal">{country?.tld}</span>
+              Top Level Domain: <span className="font-normal">{country?.tlds}</span>
             </p>
 
             {/* Currencis  */}
@@ -80,10 +97,11 @@ export default async function CountryContent({ id }: { id: string }) {
             </p>
 
             {/* Languages */}
+
             <p className="font-semibold">
               Languages:{" "}
               <span className="font-normal">
-                {country?.languages && Object.values(country.languages).join(", ")}
+                {country?.languages.map((lang) => lang.name).join(", ")}
               </span>
             </p>
           </div>
@@ -91,23 +109,7 @@ export default async function CountryContent({ id }: { id: string }) {
 
         {/* Borders  */}
         <div className="px-2 sm:py-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="font-semibold">Border Countries:</span>
-            {data && data.length > 0 ? (
-              data.map((borderCountry) => (
-                <Button
-                  key={borderCountry.cca2}
-                  asChild
-                  variant="outline"
-                  className="m-2 h-auto rounded-lg px-4 py-2 font-normal shadow-sm shadow-zinc-500/50 transition-transform hover:scale-105 dark:bg-slate-600 dark:shadow-slate-700"
-                >
-                  <Link href={`/${borderCountry.cca2}`}>{borderCountry.name.common}</Link>
-                </Button>
-              ))
-            ) : (
-              <span className="ml-2 font-normal">No neighboring countries.</span>
-            )}
-          </div>
+          <Borders countryBorders={country.borders} />
         </div>
       </div>
     </div>
