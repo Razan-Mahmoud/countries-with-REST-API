@@ -36,16 +36,15 @@ export default function SearchInput() {
   };
 
   return (
-    <div className="grid h-11 grid-cols-2">
-      <div className="relative col-span-2 h-12">
-        <Search size={20} strokeWidth={1.5} className="absolute start-2 top-4" color="gray" />
-        <Input
-          value={inputValue}
-          onChange={(e) => handleChange(e.target.value)}
-          placeholder="Search for a country..."
-          className="rounded-xl bg-white p-3 ps-8 shadow-sm dark:bg-slate-600 md:ps-10"
-        />
-      </div>
+    <div className="relative flex h-12 w-full items-center justify-center md:w-1/2">
+      <Search size={20} strokeWidth={1.5} className="absolute start-2 top-3.5" color="gray" />
+
+      <Input
+        value={inputValue}
+        onChange={(e) => handleChange(e.target.value)}
+        placeholder="Search for a country..."
+        className="w-full rounded-xl bg-white p-3 ps-8 shadow-sm dark:bg-slate-600 md:ps-10"
+      />
     </div>
   );
 }
